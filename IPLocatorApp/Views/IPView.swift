@@ -32,15 +32,16 @@ struct IPView:View {
             if let location = viewModel.location {
                 Map(coordinateRegion: .constant(
                     MKCoordinateRegion(
-                        center: location,
+                        center: location.coordinate,
                         span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
                     )
                 ), annotationItems: [location]) { loc in
-                    MapMarker(coordinate: loc, tint: .red)
+                    MapMarker(coordinate: loc.coordinate, tint: .red)
                 }
                 .frame(height: 300)
                 .cornerRadius(10)
             }
+
             
             if let errorMessage = viewModel.errorMessage {
                 Text(errorMessage)
