@@ -35,27 +35,29 @@ struct IPView:View {
             }
             
             //Show loading indicator while fetching
-            if viewModel.isLoading {
-                ProgressView("Loading...")
-                    .padding()
-            }
-            
-            //Show map if a valid location is found
-            else if let location = viewModel.location {
-                Map(position: $cameraPosition) {
-                    Marker("IP Location", coordinate: location)
+            if(viewModel.errorMessage == nil) {
+                if viewModel.isLoading {
+                    ProgressView("Loading...")
+                        .padding()
                 }
-                .onReceive(viewModel.$location) { location in
-                    // Update camera when location changes
-                    cameraPosition = .region(
-                        MKCoordinateRegion(center: location!,
-                            span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+                
+                //Show map if a valid location is found
+                else if let location = viewModel.location {
+                    Map(position: $cameraPosition) {
+                        Marker("IP Location", coordinate: location)
+                    }
+                    .onReceive(viewModel.$location) { location in
+                        // Update camera when location changes
+                        cameraPosition = .region(
+                            MKCoordinateRegion(center: location!,
+                                               span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
                         )
+                    }
+                    .frame(height: 300)
+                    .cornerRadius(10)
+                    
+                    
                 }
-                .frame(height: 300)
-                .cornerRadius(10)
-                
-                
             }
             
             //Show error message if location fails

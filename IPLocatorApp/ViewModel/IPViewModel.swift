@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import MapKit
 
+///ViewModel responsible for fetching IP location and managing UI state.
 class IPViewModel: ObservableObject {
     @Published var ipAddress: String = ""
     @Published var location: CLLocationCoordinate2D? = nil
@@ -60,6 +61,15 @@ class IPViewModel: ObservableObject {
     }
 
     func fetchLocation(for ip: String) {
+        guard isValidIP(ip) else {
+            errorMessage = "Please enter a valid IP address"
+            return
+        }
         fetchSubject.send(ip)
+    }
+    
+    private func isValidIP(_ ip: String) -> Bool {
+        let pattern = #"^(25[0-5]|2[0-4][0-9]|1?[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1?[0-9]{1,2})){3}$"#
+        return ip.range(of: pattern, options: .regularExpression) != nil
     }
 }
