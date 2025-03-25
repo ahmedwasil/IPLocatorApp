@@ -11,7 +11,7 @@ import SwiftUI
 struct IPLocatorAppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            IPView()
         }
     }
 }
