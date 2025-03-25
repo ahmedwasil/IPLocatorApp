@@ -25,15 +25,23 @@ struct IPView:View {
                     viewModel.fetchCurrentIP()
                 }
                 .buttonStyle(.bordered)
+                .disabled(viewModel.isLoading)
                 
                 Button("Locate IP") {
                     viewModel.fetchLocation(for: viewModel.ipAddress)
                 }
                 .buttonStyle(.borderedProminent)
+                .disabled(viewModel.isLoading)
+            }
+            
+            //Show loading indicator while fetching
+            if viewModel.isLoading {
+                ProgressView("Loading...")
+                    .padding()
             }
             
             //Show map if a valid location is found
-            if let location = viewModel.location {
+            else if let location = viewModel.location {
                 Map(position: $cameraPosition) {
                     Marker("IP Location", coordinate: location)
                 }
@@ -56,6 +64,9 @@ struct IPView:View {
                     .foregroundColor(.red)
                     .padding()
             }
+            
+            Spacer()
         }
+        .padding()
     }
 }
