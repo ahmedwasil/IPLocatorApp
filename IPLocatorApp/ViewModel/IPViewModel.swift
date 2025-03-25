@@ -11,7 +11,7 @@ import MapKit
 
 class IPViewModel: ObservableObject {
     @Published var ipAddress: String = ""
-    @Published var location: LocationPoint? = nil
+    @Published var location: CLLocationCoordinate2D? = nil
     @Published var errorMessage: String? = nil
     
     private var cancellables = Set<AnyCancellable>()
@@ -30,7 +30,7 @@ class IPViewModel: ObservableObject {
             }
             .sink { [weak self] ipData in
                 if let lat = ipData.latitude, let lon = ipData.longitude {
-                    self?.location = LocationPoint(coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon))
+                    self?.location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
                     self?.ipAddress = ipData.ip
                     self?.errorMessage = nil
                 } else {
