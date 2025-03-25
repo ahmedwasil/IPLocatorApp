@@ -54,6 +54,7 @@ You can run them with `Cmd + U` in Xcode.
 - Add a history of searched IPs
 - Fallback to user GPS if IP lookup fails
 - Nicer UI styling and animations (FYI UI was not the focus for this task)
+- Add further for Failing Mock Case, View Model State, UI Tests, Network Service Tests
 
 ---
 
