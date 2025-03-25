@@ -8,7 +8,11 @@
 import Foundation
 import Combine
 
-class NetworkService {
+protocol IPServiceProtocol {
+    func fetchIPDetails(for ip: String?) -> AnyPublisher<IPLocation, Error>
+}
+
+class NetworkService: IPServiceProtocol {
     static let shared = NetworkService()
     
     private init() {}
