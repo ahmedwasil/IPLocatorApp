@@ -14,15 +14,18 @@ class IPViewModel: ObservableObject {
     @Published var location: CLLocationCoordinate2D? = nil
     @Published var errorMessage: String? = nil
     
+    //Combine pipeline and trigger
     private var cancellables = Set<AnyCancellable>()
     private let fetchSubject = PassthroughSubject<String?, Never>()
     private let ipService: IPServiceProtocol
     
+    //Inject IP service
     init(ipService: IPServiceProtocol = NetworkService.shared) {
         self.ipService = ipService
         setupBindings()
     }
     
+    //Setup Combine pipeline to fetch IP location whenever triggered
     private func setupBindings() {
         fetchSubject
             .flatMap { ip in

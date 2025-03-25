@@ -14,10 +14,12 @@ struct IPView:View {
     
     var body: some View {
         VStack(spacing: 20) {
+            //Textfield for manual IP entry
             TextField("Enter IP Address", text: $viewModel.ipAddress)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
             
+            //Action buttons
             HStack {
                 Button("Get My IP") {
                     viewModel.fetchCurrentIP()
@@ -30,6 +32,7 @@ struct IPView:View {
                 .buttonStyle(.borderedProminent)
             }
             
+            //Show map if a valid location is found
             if let location = viewModel.location {
                 Map(position: $cameraPosition) {
                     Marker("IP Location", coordinate: location)
@@ -47,6 +50,7 @@ struct IPView:View {
                 
             }
             
+            //Show error message if location fails
             if let errorMessage = viewModel.errorMessage {
                 Text(errorMessage)
                     .foregroundColor(.red)
