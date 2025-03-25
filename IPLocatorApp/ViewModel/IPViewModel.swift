@@ -16,15 +16,17 @@ class IPViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     private let fetchSubject = PassthroughSubject<String?, Never>()
+    private let ipService: IPServiceProtocol
     
-    init() {
+    init(ipService: IPServiceProtocol = NetworkService.shared) {
+        self.ipService = ipService
         setupBindings()
     }
     
     private func setupBindings() {
         fetchSubject
             .flatMap { ip in
-                NetworkService.shared.fetchIPDetails(for: ip)
+                self.ipService.fetchIPDetails(for: ip)
                     .catch { _ in Just(IPLocation(ip: "", latitude: nil, longitude: nil)) }
                     .eraseToAnyPublisher()
             }
